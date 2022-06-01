@@ -1,24 +1,50 @@
-#ifndef LISTS_H
-#define LISTS_H
-#include <stdio.h>
-#include <stdlib.h>
+#include "lists.h"
 /**
- * struct listint_s - singly linked list
- * @n: integer
- * @next: points to the next node
- *
- * Description: singly linked list node structure
+ * insert_node - inserts a number into a sorted singly linked list
+ * @head: pointer to the initial linked list pointer
+ * @number: number to insert
+ * Return: pointer to the new node
  */
-typedef struct listint_s
+listint_t *insert_node(listint_t **head, int number)
 {
-	int n;
-	struct listint_s *next;
-} listint_t;
+	listint_t *new, *tmp;
+	int i, j;
 
-size_t print_listint(const listint_t *h);
-listint_t *add_nodeint_end(listint_t **head, const int n);
-void free_listint(listint_t *head);
-
-listint_t *insert_node(listint_t **head, int number);
-
-#endif /* LISTS_H */
+	new = malloc(sizeof(listint_t));
+	if (!new)
+		return (NULL);
+	new->n = number, tmp = *head;
+	if (!(*head))
+		return (*head = new, new->next = NULL, new);
+	for (i = 0; tmp; i++)
+	{
+		if (number > tmp->n)
+		{
+			if (!tmp->next)
+				return (tmp->next = new, new->next = NULL, new);
+			tmp = tmp->next;
+			continue;
+		}
+		else
+		{
+			new->next = tmp;
+			if (tmp == *head)
+			{
+				*head = new;
+				break;
+			}
+			tmp = *head;
+			for (j = 0; j < i; j++)
+			{
+				if (j == (i - 1))
+				{
+					tmp->next = new;
+					break;
+				}
+				tmp = tmp->next;
+			}
+			break;
+		}
+	}
+	return (new);
+}
