@@ -1,2 +1,3 @@
 #!/usr/bin/python3
-import printing_easy
+def easy_print ():
+    return("pythoniscool\n")
